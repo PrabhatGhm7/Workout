@@ -2,6 +2,7 @@
 let mediaRecorder;
 let recordedChunks = [];
 let currentVideoBlob = null;
+let currentStream = null;
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -21,6 +22,11 @@ function setupEventListeners() {
     // Record button handlers
     document.getElementById('recordBtn').addEventListener('click', startRecording);
     document.getElementById('stopBtn').addEventListener('click', stopRecording);
+    
+    // Upload button handler
+    document.getElementById('uploadBtn').addEventListener('click', function() {
+        document.getElementById('video').click();
+    });
     
     // Form submission handler
     document.getElementById('exerciseForm').addEventListener('submit', handleFormSubmit);
@@ -55,6 +61,27 @@ function showVideoPreview(file) {
     preview.appendChild(video);
 }
 
+// Create live camera preview
+function createLivePreview(stream) {
+    const preview = document.getElementById('videoPreview');
+    const video = document.createElement('video');
+    video.className = 'video-preview live-preview';
+    video.autoplay = true;
+    video.muted = true; // Prevent audio feedback
+    video.playsInline = true; // Important for mobile
+    video.srcObject = stream;
+    
+    // Add recording indicator
+    const indicator = document.createElement('div');
+    indicator.className = 'recording-indicator';
+    indicator.innerHTML = '🔴 RECORDING';
+    
+    preview.innerHTML = '';
+    preview.style.position = 'relative';
+    preview.appendChild(video);
+    preview.appendChild(indicator);
+}
+
 // Start recording function
 async function startRecording() {
     try {
@@ -66,6 +93,12 @@ async function startRecording() {
             }, 
             audio: true 
         });
+        
+        // Store the stream reference
+        currentStream = stream;
+        
+        // Show live preview
+        createLivePreview(stream);
         
         mediaRecorder = new MediaRecorder(stream);
         recordedChunks = [];
@@ -79,18 +112,21 @@ async function startRecording() {
         mediaRecorder.addEventListener('stop', function() {
             const blob = new Blob(recordedChunks, { type: 'video/webm' });
             currentVideoBlob = blob;
-            showVideoPreview(blob);
-            showStatus('Video recorded successfully!', 'success');
             
             // Stop all tracks
             stream.getTracks().forEach(track => track.stop());
+            currentStream = null;
+            
+            // Show recorded video preview
+            showVideoPreview(blob);
+            showStatus('Video recorded successfully!', 'success');
         });
         
         mediaRecorder.start();
         
         // Update UI
         updateRecordingUI(true);
-        showStatus('Recording started... Tap stop when finished', 'info');
+        showStatus('Recording started... You can see yourself on screen!', 'info');
         
     } catch (error) {
         console.error('Error accessing camera:', error);
@@ -103,6 +139,12 @@ async function startRecording() {
 function stopRecording() {
     if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
+    }
+    
+    // Stop the stream if it's still active
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+        currentStream = null;
     }
     
     updateRecordingUI(false);
@@ -191,10 +233,13 @@ function handleFormSubmit(e) {
 // Save exercise function
 function saveExercise(data) {
     try {
-        // Get existing exercises from localStorage or initialize empty array
-        let exercises = JSON.parse(localStorage.getItem('exercises') || '[]');
-        exercises.push(data);
-        localStorage.setItem('exercises', JSON.stringify(exercises));
+        // Initialize storage if it doesn't exist
+        if (!window.exerciseStorage) {
+            window.exerciseStorage = [];
+        }
+        
+        // Add new exercise
+        window.exerciseStorage.push(data);
         
         // Reset form and update display
         resetForm();
@@ -213,6 +258,12 @@ function resetForm() {
     document.getElementById('videoPreview').innerHTML = '';
     currentVideoBlob = null;
     
+    // Stop any active stream
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+        currentStream = null;
+    }
+    
     // Reset any recording state
     updateRecordingUI(false);
 }
@@ -220,9 +271,11 @@ function resetForm() {
 // Delete exercise function
 function deleteExercise(id) {
     try {
-        let exercises = JSON.parse(localStorage.getItem('exercises') || '[]');
-        exercises = exercises.filter(ex => ex.id !== id);
-        localStorage.setItem('exercises', JSON.stringify(exercises));
+        if (!window.exerciseStorage) {
+            window.exerciseStorage = [];
+        }
+        
+        window.exerciseStorage = window.exerciseStorage.filter(ex => ex.id !== id);
         
         displayExercises();
         showStatus('Exercise deleted', 'info');
@@ -236,7 +289,7 @@ function deleteExercise(id) {
 // Display exercises function
 function displayExercises() {
     try {
-        const exercises = JSON.parse(localStorage.getItem('exercises') || '[]');
+        const exercises = window.exerciseStorage || [];
         const grouped = groupExercisesByBodyPart(exercises);
         renderExercises(grouped);
         
@@ -373,6 +426,13 @@ function registerServiceWorker() {
             });
     }
 }
+
+// Cleanup function for when page is unloaded
+window.addEventListener('beforeunload', () => {
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+    }
+});
 
 // Export functions for global access (if needed)
 window.deleteExercise = deleteExercise;
