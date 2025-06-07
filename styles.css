@@ -1,0 +1,309 @@
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 24px;
+  padding: 40px 35px 45px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 35px;
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #4caf50, #45a049);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+#exerciseForm {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 40px;
+}
+
+input[type="text"],
+select,
+textarea {
+  padding: 16px 20px;
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: #fafafa;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.25);
+  background: #fff;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.video-section {
+  border: 2px solid #e4e4e4;
+  border-radius: 14px;
+  padding: 24px 20px;
+  background: #fcfcfc;
+}
+
+.video-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 25px;
+  text-align: center;
+  user-select: none;
+}
+
+.video-option-container {
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 20px 18px;
+  margin-bottom: 18px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.video-option-container:hover,
+.video-option-container:focus-within {
+  border-color: #4caf50;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+}
+
+.video-option-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  user-select: none;
+}
+
+.video-icon {
+  font-size: 26px;
+  margin-right: 14px;
+}
+
+.video-option-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+}
+
+.video-option-description {
+  color: #555;
+  font-size: 14.5px;
+  margin-left: 40px;
+  margin-bottom: 18px;
+  line-height: 1.3;
+}
+
+.record-controls,
+.upload-controls {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.record-btn,
+.upload-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  min-width: 150px;
+}
+
+.record-btn:hover,
+.upload-btn:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(69, 160, 73, 0.4);
+}
+
+.record-btn.recording {
+  background: #f44336;
+  box-shadow: 0 0 20px 2px rgba(244, 67, 54, 0.8);
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(244, 67, 54, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
+}
+
+button[type="submit"].submit-btn {
+  background: linear-gradient(45deg, #4caf50, #45a049);
+  color: white;
+  font-size: 19px;
+  font-weight: 700;
+  padding: 16px 0;
+  border-radius: 30px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"].submit-btn:hover,
+button[type="submit"].submit-btn:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(76, 175, 80, 0.6);
+  outline: none;
+}
+
+.exercise-entry {
+  background: #fefefe;
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 22px;
+  position: relative;
+  border-left: 6px solid #4caf50;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.exercise-entry:hover {
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+}
+
+.delete-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+  background: #d32f2f;
+  outline: none;
+}
+
+.body-part-section {
+  margin-bottom: 34px;
+}
+
+.body-part-section h2 {
+  color: #4caf50;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #4caf50;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+video {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 14px;
+  margin-top: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.status-message {
+  margin-top: 10px;
+  color: #f44336;
+  font-weight: 600;
+  min-height: 18px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  border: 0 !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 440px) {
+  .container {
+    padding: 30px 20px 35px;
+  }
+  h1 {
+    font-size: 2.2rem;
+  }
+  .video-section-title {
+    font-size: 1.1rem;
+  }
+  input[type="text"],
+  select,
+  textarea {
+    font-size: 15px;
+    padding: 14px 16px;
+  }
+  button.record-btn,
+  button.upload-btn {
+    min-width: 130px;
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+}

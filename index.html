@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#4CAF50" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Fitness Tracker</title>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>💪 Exercise Tracker</h1>
+    
+    <form id="exerciseForm" aria-label="Exercise Tracker Form">
+      <label for="name" class="sr-only">Exercise Name</label>
+      <input type="text" id="name" name="name" placeholder="Exercise Name" required />
+      
+      <label for="bodyPart" class="sr-only">Select Body Part</label>
+      <select id="bodyPart" name="bodyPart" required>
+        <option value="" disabled selected>Select Body Part</option>
+        <option value="Arms">💪 Arms</option>
+        <option value="Legs">🦵 Legs</option>
+        <option value="Chest">🫁 Chest</option>
+        <option value="Back">🫸 Back</option>
+        <option value="Core">🎯 Core</option>
+        <option value="Full Body">🏃 Full Body</option>
+      </select>
+      
+      <label for="note" class="sr-only">Exercise Notes</label>
+      <textarea id="note" name="note" placeholder="Add notes about sets, reps, weight, or technique..." rows="4"></textarea>
+      
+      <section class="video-section" aria-label="Video Options">
+        <p class="video-section-title">📹 Add Exercise Video (Optional)</p>
+        
+        <!-- Record Video Section -->
+        <div class="video-option-container">
+          <div class="video-option-header">
+            <span class="video-icon" aria-hidden="true">🎬</span>
+            <span class="video-option-title">Record New Video</span>
+          </div>
+          <p class="video-option-description">Record exercise directly using your camera</p>
+          <div class="record-controls">
+            <button type="button" class="record-btn" id="recordBtn" aria-live="polite">📹 Start Recording</button>
+            <button type="button" class="record-btn stop-btn" id="stopBtn" style="display:none;">⏹️ Stop Recording</button>
+          </div>
+        </div>
+
+        <!-- Upload Video Section -->
+        <div class="video-option-container">
+          <div class="video-option-header">
+            <span class="video-icon" aria-hidden="true">📁</span>
+            <span class="video-option-title">Upload Existing Video</span>
+          </div>
+          <p class="video-option-description">Choose video from your device gallery</p>
+          <div class="upload-controls">
+            <input type="file" id="video" accept="video/*" style="display: none;" />
+            <button type="button" class="upload-btn" id="uploadBtn">Choose Video File</button>
+          </div>
+        </div>
+      </section>
+      
+      <div id="videoPreview" class="video-preview" aria-live="polite"></div>
+      <div id="statusMessage" class="status-message" aria-live="assertive"></div>
+      
+      <button type="submit" class="submit-btn">✅ Add Exercise</button>
+    </form>
+    
+    <div id="exercises"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
